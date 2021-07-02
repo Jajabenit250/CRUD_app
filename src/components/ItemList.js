@@ -20,14 +20,15 @@ import {
   usePagination,
   useColumnOrder,
 } from "react-table";
-import axios from "axios";
+import { getAlbums } from '../redux/action'
 import { ArrowDownwardOutlined, ArrowUpwardOutlined } from "@material-ui/icons";
 import GlobalFilter from "./GlobalFilter";
 import Controls from "./controls/Controls";
 import Popup from "./Popup";
 import AddItem from "./AddItem";
 import EditItem from "./EditItem";
-const ItemList = (props) => {
+import { connect } from 'react-redux';
+let ItemList = (props) => {
   /** Global constant */
   const [items, setItems] = useState([]);
   const [rowIndex, setRowIndex] = useState();
@@ -40,20 +41,14 @@ const ItemList = (props) => {
   /** End of Global constant */
 
   /** use effect */
-  useEffect(() => {
+  useEffect((props) => {
     openItem();
+    // setItems(props.getAlbums);
   }, []);
   const openItem = () => {
-    const URI = "https://jsonplaceholder.typicode.com/albums";
-    axios
-      .get(URI)
-      .then((response) => {
-        setItems(response.data);
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    console.log('inside');
+    getAlbums();
+    console.log('outside');
   };
   const editItem = (e) => {
     e.preventDefault();
@@ -299,4 +294,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ItemList;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    albums: state,
+  };
+};
+
+export default connect(mapStateToProps, {
+  getAlbums
+})(ItemList);

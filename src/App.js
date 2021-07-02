@@ -4,7 +4,7 @@ import {
   makeStyles,
   ThemeProvider,
 } from "@material-ui/core";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import AddItem from "./components/AddItem";
 import EditItem from "./components/EditItem";
@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   return (
+    <BrowserRouter>
     <ThemeProvider theme={theme}>
       <Container className={classes.appMain} component="main">
         <Switch>
@@ -55,6 +56,7 @@ function App() {
         </Switch>
       </Container>
     </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
